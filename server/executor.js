@@ -58,6 +58,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
     if (!sim.success) {
       onStderr(`[C Syntax Check Failed] Line ${sim.diagnostic.line || 1}\n${sim.diagnostic.whatHappened}\n${sim.diagnostic.howToFix}\n`);
       onExit({
+        execId,
         exitCode: 1,
         durationMs: 15,
         diagnostic: sim.diagnostic
@@ -67,6 +68,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
       onStdout(sim.output);
       onStdout('\n----------------------------------------\n[Notice] Output simulated by NovaCode Educational C Engine.\nTo build native Windows .exe binaries, install MinGW GCC with: winget install BrechtSanders.MinGW-w64\n');
       onExit({
+        execId,
         exitCode: 0,
         durationMs: 25,
         stdout: sim.output
@@ -83,6 +85,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
 
     onStderr(errorMsg);
     onExit({
+      execId,
       exitCode: 1,
       durationMs: 0,
       missingRuntime: true,
@@ -273,6 +276,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
       cleanup();
 
       onExit({
+        execId,
         exitCode: code !== null ? code : (signal ? 1 : 0),
         signal,
         durationMs,
@@ -287,6 +291,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
       onStderr(`\n[Process Launch Error] ${err.message}\n`);
       cleanup();
       onExit({
+        execId,
         exitCode: 1,
         durationMs: Date.now() - startTime,
         error: err.message
@@ -299,6 +304,7 @@ function runCode({ code, language, filename, input = '' }, onStdout, onStderr, o
     cleanup();
     onStderr(`[Execution Error] ${err.message}`);
     onExit({
+      execId,
       exitCode: 1,
       durationMs: Date.now() - startTime,
       error: err.message

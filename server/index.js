@@ -81,11 +81,12 @@ app.post('/api/execute/run', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Transfer-Encoding', 'chunked');
 
+  let exec = null;
   let executionResult = null;
   let fullStdout = '';
   let fullStderr = '';
 
-  const exec = runCode(
+  exec = runCode(
     { code, language, filename, input },
     (stdoutChunk) => {
       fullStdout += stdoutChunk;
@@ -95,7 +96,7 @@ app.post('/api/execute/run', (req, res) => {
     },
     (exitInfo) => {
       const responsePayload = {
-        execId: exec ? exec.execId : null,
+        execId: exitInfo.execId || (exec ? exec.execId : null),
         stdout: fullStdout,
         stderr: fullStderr,
         exitCode: exitInfo.exitCode,
