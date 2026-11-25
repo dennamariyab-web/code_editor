@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My First Web Project</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --accent: #38bdf8;
+    }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    h1 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: 1.8rem;
+    }
+    p {
+      line-height: 1.6;
+      color: #94a3b8;
+    }
+    .counter-display {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: #22c55e;
+      margin: 20px 0;
+      font-family: monospace;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+    }
+    button:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .reset-btn {
+      background: #475569;
+    }
+    .reset-btn:hover {
+      background: #334155;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Live Web Sandbox</div>
+    <h1>Interactive Counter App</h1>
+    <p>This page runs live in NovaCode's sandboxed web preview. Click the buttons below to interact!</p>
+    
+    <div class="counter-display" id="count">0</div>
+    
+    <div class="btn-group">
+      <button onclick="decrement()">- Subtract</button>
+      <button class="reset-btn" onclick="reset()">Reset</button>
+      <button onclick="increment()">+ Add</button>
+    </div>
+  </div>
+
+  <script>
+    let count = 0;
+    const countEl = document.getElementById('count');
+
+    function updateDisplay() {
+      countEl.innerText = count;
+      if (count > 0) countEl.style.color = '#22c55e';
+      else if (count < 0) countEl.style.color = '#ef4444';
+      else countEl.style.color = '#94a3b8';
+    }
+
+    function increment() {
+      count++;
+      updateDisplay();
+    }
+
+    function decrement() {
+      count--;
+      updateDisplay();
+    }
+
+    function reset() {
+      count = 0;
+      updateDisplay();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+/* ==========================================================================
+   NovaCode Code Editor Canvas & Syntax Stylesheet
+   ========================================================================== */
+
+.editor-wrapper {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: var(--editor-font-size);
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* Line Numbers Gutter */
+.editor-gutter {
+  width: 52px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  padding: 12px 0;
+  user-select: none;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 0.82em;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.gutter-line {
+  padding-right: 12px;
+  height: 24px;
+  line-height: 24px;
+  position: relative;
+}
+
+.gutter-line.active {
+  color: #818cf8;
+  font-weight: 700;
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.gutter-line.error-line {
+  color: var(--danger);
+  font-weight: 700;
+  background: var(--danger-bg);
+}
+
+.gutter-line.error-line::before {
+  content: '●';
+  position: absolute;
+  left: 6px;
+  color: var(--danger);
+  font-size: 0.7em;
+}
+
+/* Editor Scroll Container */
+.editor-scroll-container {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+/* Code Area: Overlaying Textarea with Highlight Display */
+.code-layer-container {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.editor-textarea,
+.editor-highlight-display {
+  margin: 0;
+  padding: 12px 16px;
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: var(--editor-font-size);
+  line-height: 24px;
+  white-space: pre;
+  word-wrap: normal;
+  tab-size: 4;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* The invisible input textarea that captures keystrokes */
+.editor-textarea {
+  color: transparent;
+  background: transparent;
+  caret-color: #818cf8;
+  resize: none;
+  outline: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* The visible syntax highlighted display underneath */
+.editor-highlight-display {
+  color: var(--text-primary);
+  background: transparent;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Active line background highlight */
+.active-line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  z-index: 0;
+  border-left: 2px solid var(--accent-primary);
+}
+
+body[data-theme="light"] .active-line-highlight {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+/* ----------------------------------------------------
+   SYNTAX HIGHLIGHT TOKENS
+   ---------------------------------------------------- */
+.token-keyword {
+  color: #c084fc; /* Purple */
+  font-weight: 600;
+}
+body[data-theme="light"] .token-keyword { color: #7c3aed; }
+
+.token-function {
+  color: #38bdf8; /* Cyan */
+  font-weight: 600;
+}
+body[data-theme="light"] .token-function { color: #0284c7; }
+
+.token-string {
+  color: #4ade80; /* Green */
+}
+body[data-theme="light"] .token-string { color: #16a34a; }
+
+.token-number {
+  color: #facc15; /* Yellow */
+}
+body[data-theme="light"] .token-number { color: #ca8a04; }
+
+.token-comment {
+  color: #64748b; /* Slate Gray */
+  font-style: italic;
+}
+body[data-theme="light"] .token-comment { color: #94a3b8; }
+
+.token-tag {
+  color: #f43f5e; /* Rose */
+}
+body[data-theme="light"] .token-tag { color: #e11d48; }
+
+.token-attribute {
+  color: #fb923c; /* Orange */
+}
+body[data-theme="light"] .token-attribute { color: #ea580c; }
+
+.token-operator {
+  color: #94a3b8;
+}
+body[data-theme="light"] .token-operator { color: #475569; }
+
+.token-type {
+  color: #2dd4bf; /* Teal */
+}
+body[data-theme="light"] .token-type { color: #0d9488; }
+
+/* ----------------------------------------------------
+   FIND AND REPLACE OVERLAY
+   ---------------------------------------------------- */
+.find-replace-bar {
+  position: absolute;
+  top: 8px;
+  right: 24px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 8px 12px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 30;
+  width: 360px;
+  animation: modalIn 0.15s ease;
+}
+.find-replace-bar.active {
+  display: flex;
+}
+
+.find-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.find-input {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  outline: none;
+}
+.find-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.find-matches-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 50px;
+}
+
+.find-highlight-match {
+  background: rgba(250, 204, 21, 0.4);
+  border-radius: 2px;
+}
+
+.find-highlight-current {
+  background: rgba(245, 158, 11, 0.85);
+  color: black;
+  border-radius: 2px;
+}
+
+/* Keyword Popover Tooltip */
+.keyword-tooltip {
+  position: absolute;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 12px 16px;
+  max-width: 320px;
+  z-index: 40;
+  display: none;
+  animation: modalIn 0.15s ease;
+}
+.keyword-tooltip.active {
+  display: block;
+}
+.keyword-tooltip-title {
+  font-weight: 700;
+  color: #818cf8;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+.keyword-tooltip-analogy {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.keyword-tooltip-why {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

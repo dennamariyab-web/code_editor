@@ -1,0 +1,4 @@
+node_modules/
+.novacode_temp_run/
+.novacode_meta/
+*.log
